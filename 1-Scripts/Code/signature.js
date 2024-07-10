@@ -9,6 +9,7 @@
  * NOTE: when implementing data into document, remove comments
 */
 
-
-var name = this.getField("Name").value; // getField("Name") refers to text box with this specific variable name
-this.getField("Signature").value = name; // getField("Signature") refers to textbox that a signature will be input into
+// getField("Name") refers to text box with this specific variable name
+// getField("Signature") refers to textbox that a signature will be input into
+var name = this.getField("Name").value; 
+this.getField("Signature").value = name; 

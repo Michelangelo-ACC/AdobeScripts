@@ -8,5 +8,5 @@
     a. Issues
     b. Needed Improvements
     c. Improvements made
-    d. Scripts
+    d. Code/
 2. Documents to be Enhanced
