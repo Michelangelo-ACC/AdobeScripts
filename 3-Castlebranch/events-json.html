@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Calendar Links</title>
+</head>
+<body>
+    <h2>Generate Event Links</h2>
+    <div id="events-container"></div>
+
+    <!-- Inline JSON in a script tag -->
+    <script id="events-data" type="application/json">
+        [
+            {
+                "title": "Event 1",
+                "startDate": "2024-12-10",
+                "startTime": "10:00 AM",
+                "endDate": "2024-12-10",
+                "endTime": "12:00 PM",
+                "location": "123 Example Street, City, State"
+            },
+            {
+                "title": "Event 2",
+                "startDate": "2024-12-11",
+                "startTime": "2:00 PM",
+                "endDate": "2024-12-11",
+                "endTime": "4:00 PM",
+                "location": "456 Sample Avenue, City, State"
+            },
+            {
+                "title": "Event 3",
+                "startDate": "2024-12-12",
+                "startTime": "9:00 AM",
+                "endDate": "2024-12-12",
+                "endTime": "11:00 AM",
+                "location": "789 Example Blvd, City, State"
+            }
+        ]
+    </script>
+
+    <script>
+        // Helper function to parse date and time into ISO format
+        function formatDateTime(date, time) {
+            // Convert time into 24-hour format
+            const [hours, minutes] = time.split(/[: ]/); // Split by ':' and space
+            const period = time.slice(-2); // Extract AM/PM
+            const hour24 = period === "PM" && hours !== "12" ? parseInt(hours) + 12 : hours === "12" && period === "AM" ? 0 : hours;
+
+            // Create a new Date object
+            const dateTime = new Date(`${date}T${String(hour24).padStart(2, "0")}:${minutes}:00`);
+            return dateTime.toISOString().replace(/-|:|\.\d+/g, ""); // Compact ISO format
+        }
+
+        // Fetch the inline JSON from the script tag
+        const eventsData = JSON.parse(document.getElementById("events-data").textContent);
+
+        // Select the container
+        const container = document.getElementById("events-container");
+
+        // Process each event in the JSON
+        eventsData.forEach(event => {
+            const startDateTime = formatDateTime(event.startDate, event.startTime);
+            const endDateTime = formatDateTime(event.endDate, event.endTime);
+
+            // Create Google Calendar link
+            const googleLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${startDateTime}/${endDateTime}&details=This+is+an+auto-generated+event.&location=${encodeURIComponent(event.location)}`;
+
+            // Create iCalendar (.ics) content
+            const icsContent = `BEGIN:VCALENDAR
+                                VERSION:2.0
+                                BEGIN:VEVENT
+                                SUMMARY:${event.title}
+                                DTSTART:${startDateTime}
+                                DTEND:${endDateTime}
+                                LOCATION:${event.location}
+                                DESCRIPTION:This is an auto-generated event.
+                                END:VEVENT
+                                END:VCALENDAR`;
+
+            // Create a Blob for the .ics file
+            const blob = new Blob([icsContent], { type: "text/calendar" });
+            const icsURL = URL.createObjectURL(blob);
+
+            // Create event card with Google Calendar and .ics links
+            const eventDiv = document.createElement("div");
+            eventDiv.classList.add("event");
+            eventDiv.innerHTML = `
+                <h3>${event.title}</h3>
+                <p><strong>Date:</strong> ${event.startDate} to ${event.endDate}</p>
+                <p><strong>Time:</strong> ${event.startTime} - ${event.endTime}</p>
+                <p><strong>Location:</strong> ${event.location}</p>
+                <p>
+                    <a href="${googleLink}" target="_blank">Add to Google Calendar</a> |
+                    <a href="${icsURL}" download="${event.title.replace(/ /g, "_")}.ics">Download .ics</a>
+                </p>
+            `;
+            container.appendChild(eventDiv);
+        });
+    </script>
+</body>
+</html>

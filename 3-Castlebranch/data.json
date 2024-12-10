@@ -1,0 +1,18 @@
+[
+    {
+        "title": "Event 1",
+        "startDate": "2024-12-10",
+        "startTime": "10:00 AM",
+        "endDate": "2024-12-10",
+        "endTime": "12:00 PM",
+        "location": "Location A"
+    },
+    {
+        "title": "Event 2",
+        "startDate": "2024-12-11",
+        "startTime": "2:00 PM",
+        "endDate": "2024-12-11",
+        "endTime": "4:00 PM",
+        "location": "Location B"
+    }
+]

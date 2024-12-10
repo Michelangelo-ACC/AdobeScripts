@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile-Friendly Google Sheet</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        @media screen and (max-width: 768px) {
+            iframe {
+                height: calc(100vh - 50px); /* Adjust height to account for browser or UI elements */
+            }
+        }
+    </style>
+</head>
+<body>
+    <iframe 
+        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTOmOeZl8tIZu6-VuWkOUmHW4A4Dq2PKVZqfIuVnHJ9oFIM1fKX9o1RypEDLSnVug/pubhtml?gid=1686690157&single=true">
+    </iframe>
+</body>
+</html>
