@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Timer with External JSON</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .event { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; }
+        .form-section, .timer-section { margin-bottom: 30px; }
+        #events-container { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1 id="form-title"></h1>
+
+    <!-- Input Form to Add New Events -->
+    <div class="form-section">
+        <h2>Add New Event</h2>
+        <form id="event-form">
+            <label for="title">Event Title:</label>
+            <input type="text" id="title" required><br><br>
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" required><br><br>
+
+            <button type="submit">Add Event</button>
+        </form>
+    </div>
+
+    <!-- Timer Controls -->
+    <div class="timer-section">
+        <h2>Timer</h2>
+        <label for="event-select">Select Event:</label>
+        <select id="event-select">
+            <option value="">-- Select an Event --</option>
+        </select>
+        <p id="timer-display">00:00:00</p>
+        <button id="start-button">Play</button>
+        <button id="pause-button">Pause</button>
+        <button id="stop-button">Stop</button>
+    </div>
+
+    <!-- Event List -->
+    <div id="events-container"></div>
+
+    <script>
+        // External JSON file URL (update this with your actual file location)
+        const jsonFileUrl = "https://raw.githubusercontent.com/<username>/<repo>/main/events.json";
+
+        // JSON Object Placeholder
+        let jsonData = {
+            "formTitle": "Loading...",
+            "events": []
+        };
+
+        // Helper Function to Format Timer Values
+        function formatTime(seconds) {
+            const hrs = Math.floor(seconds / 3600).toString().padStart(2, '0');
+            const mins = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            return `${hrs}:${mins}:${secs}`;
+        }
+
+        // Timer Variables
+        let timerInterval = null;
+        let elapsedSeconds = 0;
+        let selectedEventIndex = null;
+
+        // Timer Buttons
+       
