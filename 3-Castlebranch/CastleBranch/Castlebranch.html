@@ -3,23 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Timer with External JSON</title>
+    <title>Dynamic Event Timer</title>
     <style>
-        body { font-family: Arial, sans-serif; }
+        body { font-family: Arial, sans-serif; margin: 20px; }
         .event { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; }
-        .form-section, .timer-section { margin-bottom: 30px; }
-        #events-container { margin-top: 20px; }
+        .form-section { margin-bottom: 30px; }
     </style>
 </head>
 <body>
-    <h1 id="form-title"></h1>
-
-    <!-- Input Form to Add New Events -->
+    <h1>Dynamic Event Timer</h1>
+<a href="castlebranch_time.html">Events</a>
+    <!-- Form to Add New Events -->
     <div class="form-section">
         <h2>Add New Event</h2>
         <form id="event-form">
             <label for="title">Event Title:</label>
             <input type="text" id="title" required><br><br>
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" required><br><br>
+
+            <label for="startTime">Start Time:</label>
+            <input type="time" id="startTime" required><br><br>
 
             <label for="location">Location:</label>
             <input type="text" id="location" required><br><br>
@@ -28,33 +33,72 @@
         </form>
     </div>
 
-    <!-- Timer Controls -->
-    <div class="timer-section">
-        <h2>Timer</h2>
-        <label for="event-select">Select Event:</label>
-        <select id="event-select">
-            <option value="">-- Select an Event --</option>
-        </select>
-        <p id="timer-display">00:00:00</p>
-        <button id="start-button">Play</button>
-        <button id="pause-button">Pause</button>
-        <button id="stop-button">Stop</button>
-    </div>
-
-    <!-- Event List -->
+    <!-- Events List -->
     <div id="events-container"></div>
 
-    <script>
-        // External JSON file URL (update this with your actual file location)
-        const jsonFileUrl = "https://raw.githubusercontent.com/Michelangelo-ACC/AdobeScripts/refs/heads/main/3-Castlebranch/CastleBranch/data.json";
+    <!-- Button to Download Updated JSON -->
+    <button id="download-json">Download JSON</button>
 
-        // JSON Object Placeholder
+    <script>
+        // Local JSON Structure
         let jsonData = {
-            "formTitle": "Loading...",
+            "formTitle": "Dynamic Event Timer",
             "events": []
         };
 
-        // Helper Function to Format Timer Values
+        // Handle Add Event Form Submission
+        const eventForm = document.getElementById("event-form");
+        eventForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            // Get Form Data
+            const title = document.getElementById("title").value;
+            const startDate = document.getElementById("startDate").value;
+            const startTime = document.getElementById("startTime").value;
+            const location = document.getElementById("location").value;
+
+            const startDateTime = `${startDate}T${startTime}`;
+            const endDateTime = startDateTime; // Default end time matches start time
+
+            // Create New Event Object
+            const newEvent = {
+                title,
+                startDateTime,
+                endDateTime,
+                elapsedSeconds: 0,
+                location
+            };
+
+            // Add to JSON
+            jsonData.events.push(newEvent);
+
+            // Re-render Events
+            renderEvents();
+        });
+
+        // Render Events to Page
+        function renderEvents() {
+            const container = document.getElementById("events-container");
+            container.innerHTML = ""; // Clear previous content
+
+            jsonData.events.forEach((event, index) => {
+                const eventDiv = document.createElement("div");
+                eventDiv.classList.add("event");
+
+                // Event Content
+                eventDiv.innerHTML = `
+                    <h3>${event.title}</h3>
+                    <p><strong>Start:</strong> ${new Date(event.startDateTime).toLocaleString()}</p>
+                    <p><strong>End:</strong> ${new Date(event.endDateTime).toLocaleString()}</p>
+                    <p><strong>Elapsed Time:</strong> ${formatTime(event.elapsedSeconds)}</p>
+                    <p><strong>Location:</strong> ${event.location}</p>
+                `;
+
+                container.appendChild(eventDiv);
+            });
+        }
+
+        // Format Time
         function formatTime(seconds) {
             const hrs = Math.floor(seconds / 3600).toString().padStart(2, '0');
             const mins = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
@@ -62,10 +106,21 @@
             return `${hrs}:${mins}:${secs}`;
         }
 
-        // Timer Variables
-        let timerInterval = null;
-        let elapsedSeconds = 0;
-        let selectedEventIndex = null;
+        // Download JSON File
+        document.getElementById("download-json").addEventListener("click", () => {
+            const blob = new Blob([JSON.stringify(jsonData, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
 
-        // Timer Buttons
-       
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "data.json";
+            a.click();
+
+            URL.revokeObjectURL(url);
+        });
+
+        // Initial Render
+        renderEvents();
+    </script>
+</body>
+</html>

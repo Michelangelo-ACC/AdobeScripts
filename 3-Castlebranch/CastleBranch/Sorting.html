@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Filter</title>
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 200px;
+            background-color: #f4f4f4;
+            border-right: 1px solid #ccc;
+            overflow-y: auto;
+        }
+        .sidebar h4 {
+            margin: 10px;
+        }
+        .sidebar input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+        .form-entry {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>Filter By</h3>
+        <h4>Who</h4>
+        <label><input type="checkbox" name="who" value="Faculty" onclick="applyFilters()"> Faculty</label><br>
+        <label><input type="checkbox" name="who" value="Student" onclick="applyFilters()"> Student</label><br>
+
+        <h4>Programs</h4>
+        <label><input type="checkbox" name="program" value="Nursing" onclick="applyFilters()"> Nursing</label><br>
+        <label><input type="checkbox" name="program" value="Sonography" onclick="applyFilters()"> Sonography</label><br>
+        <label><input type="checkbox" name="program" value="Physical Therapy" onclick="applyFilters()"> Physical Therapy</label><br>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="form-entry" data-who="Staff" data-program="Nursing">
+            <h4>Accudose Security Agreement</h4>
+            <a href="link-to-accudose">Go to Accudose Security Agreement</a>
+        </div>
+        <div class="form-entry" data-who="Faculty,Student" data-program="Sonography">
+            <h4>Attestation Form (updated March 31, 2023)</h4>
+            <a href="link-to-attestation">Go to Attestation Form</a>
+        </div>
+        <div class="form-entry" data-who="Staff" data-program="Physical Therapy">
+            <h4>Faculty Orientation Manual (updated March 31, 2023)</h4>
+            <a href="link-to-faculty-orientation">Go to Faculty Orientation Manual</a>
+        </div>
+        <div class="form-entry" data-who="Staff" data-program="Nursing">
+            <h4>Faculty Orientation Manual Attestation Form</h4>
+            <a href="link-to-faculty-orientation-attestation">Go to Faculty Orientation Manual Attestation Form</a>
+        </div>
+        <div class="form-entry" data-who="Student" data-program="Sonography">
+            <h4>Student Orientation Manual (updated March 31, 2023)</h4>
+            <a href="link-to-student-orientation">Go to Student Orientation Manual</a>
+        </div>
+        <div class="form-entry" data-who="Student" data-program="Physical Therapy">
+            <h4>Student Orientation Manual Attestation Form</h4>
+            <a href="link-to-student-orientation-attestation">Go to Student Orientation Manual Attestation Form</a>
+        </div>
+        <div class="form-entry" data-who="Faculty,Student" data-program="Nursing,Sonography">
+            <h4>Mandatory Orientation Module and Post Test</h4>
+            <a href="link-to-orientation-module">Go to Mandatory Orientation Module and Post Test</a>
+        </div>
+        <div class="form-entry" data-who="Faculty,Student" data-program="Sonography,Physical Therapy">
+            <h4>Statement of Responsibility</h4>
+            <a href="link-to-statement-of-responsibility">Go to Statement of Responsibility</a>
+        </div>
+        <div class="form-entry" data-who="Faculty,Student" data-program="Physical Therapy">
+            <h4>Meditech Access Request Form and Confidentiality & Security Agreement</h4>
+            <a href="link-to-meditech">Go to Meditech Access Request Form</a>
+        </div>
+        <div class="form-entry" data-who="Staff" data-program="Sonography">
+            <h4>ICARE My Commitment to Our Values Form</h4>
+            <a href="link-to-icare">Go to ICARE Form</a>
+        </div>
+        <div class="form-entry" data-who="Staff" data-program="Nursing">
+            <h4>Substance Use in the Workplace Acknowledgment (updated Fall 2022)</h4>
+            <a href="link-to-substance-use">Go to Substance Use in the Workplace Acknowledgment</a>
+        </div>
+        <div class="form-entry" data-who="Faculty,Student" data-program="Physical Therapy,Nursing">
+            <h4>Fit Test Verification and Attestation Form</h4>
+            <a href="link-to-fit-test">Go to Fit Test Verification and Attestation Form</a>
+        </div>
+        <div class="form-entry" data-who="Faculty,Student" data-program="Nursing">
+            <h4>Flu Vaccine Verification and Attestation Form</h4>
+            <a href="link-to-flu-vaccine">Go to Flu Vaccine Verification and Attestation Form</a>
+        </div>
+        <div class="form-entry" data-who="Faculty,Student" data-program="Sonography">
+            <h4>USP <800>: Safe Handling of Hazardous Drugs Module and Post Test</h4>
+            <a href="link-to-usp800">Go to USP <800> Module</a>
+        </div>
+        <div class="form-entry" data-who="Student" data-program="Physical Therapy">
+            <h4>Bridging the Gap Modules (Complete Modules 1-4 only)</h4>
+            <a href="link-to-bridging-the-gap">Go to Bridging the Gap Modules</a>
+        </div>
+        <div class="form-entry" data-who="Student" data-program="Nursing">
+            <h4>St. David’s Ambulatory Student Packet</h4>
+            <a href="link-to-st-davids-packet">Go to St. David’s Ambulatory Student Packet</a>
+        </div>
+        <div class="form-entry" data-who="Faculty,Student" data-program="Physical Therapy">
+            <h4>COVID-19 Self-Screening Attestation Form (updated 10/2023)</h4>
+            <a href="link-to-covid19-attestation">Go to COVID-19 Self-Screening Attestation Form</a>
+        </div>
+    </div>
+
+    <script>
+        function applyFilters() {
+            const whoFilters = Array.from(document.querySelectorAll('input[name="who"]:checked')).map(cb => cb.value);
+            const programFilters = Array.from(document.querySelectorAll('input[name="program"]:checked')).map(cb => cb.value);
+
+            const forms = document.querySelectorAll('.form-entry');
+            forms.forEach(form => {
+                const who = form.getAttribute('data-who').split(',');
+                const program = form.getAttribute('data-program').split(',');
+
+                const matchesWho = whoFilters.length === 0 || whoFilters.some(filter => who.includes(filter));
+                const matchesProgram = programFilters.length === 0 || programFilters.some(filter => program.includes(filter));
+
+                if (matchesWho && matchesProgram) {
+                    form.style.display = '';
+                } else {
+                    form.style.display = 'none';
+                }
+            });
+        }
+
+        // Initial application of filters
+        applyFilters();
+    </script>
+</body>
+</html>

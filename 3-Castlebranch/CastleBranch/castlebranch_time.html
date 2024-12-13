@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Timer with Server-Side JSON</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .event { margin-bottom: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9; }
+        .event h3 { margin: 0; font-size: 1.2em; }
+        .event p { margin: 5px 0; }
+        .buttons { margin-top: 10px; }
+        .buttons button { margin-right: 10px; padding: 5px 10px; }
+    </style>
+</head>
+<body>
+    <h1>Event Timer</h1>
+    <div id="events-container"></div>
+
+    <script>
+        const API_URL = "data.json";
+
+        // Fetch Events from Server
+        function fetchEvents() {
+            fetch(API_URL)
+                .then(response => response.json())
+                .then(data => renderEvents(data.events))
+                .catch(error => console.error("Error fetching events:", error));
+        }
+
+        // Render Events
+        function renderEvents(events) {
+            const container = document.getElementById("events-container");
+            container.innerHTML = "";
+
+            events.forEach((event, index) => {
+                const eventDiv = document.createElement("div");
+                eventDiv.classList.add("event");
+
+                eventDiv.innerHTML = `
+                    <h3>${event.title}</h3>
+                    <p><strong>Location:</strong> ${event.location}</p>
+                    <p><strong>Elapsed Time:</strong> <span id="elapsed-${index}">${formatTime(event.elapsedSeconds)}</span></p>
+                    <div class="buttons">
+                        <button id="start-timer-${index}">Start</button>
+                        <button id="pause-timer-${index}" disabled>Pause</button>
+                        <button id="stop-timer-${index}" disabled>Stop</button>
+                    </div>
+                `;
+
+                container.appendChild(eventDiv);
+
+                attachTimerLogic(index, event);
+            });
+        }
+
+        // Timer Logic
+        function attachTimerLogic(index, event) {
+            const startButton = document.getElementById(`start-timer-${index}`);
+            const pauseButton = document.getElementById(`pause-timer-${index}`);
+            const stopButton = document.getElementById(`stop-timer-${index}`);
+            const elapsedDisplay = document.getElementById(`elapsed-${index}`);
+
+            let timerInterval = null;
+
+            // Start Timer
+            startButton.addEventListener("click", () => {
+                if (!timerInterval) {
+                    timerInterval = setInterval(() => {
+                        event.elapsedSeconds++;
+                        elapsedDisplay.textContent = formatTime(event.elapsedSeconds);
+                    }, 1000);
+
+                    startButton.disabled = true;
+                    pauseButton.disabled = false;
+                    stopButton.disabled = false;
+                }
+            });
+
+            // Pause Timer
+            pauseButton.addEventListener("click", () => {
+                clearInterval(timerInterval);
+                timerInterval = null;
+
+                startButton.disabled = false;
+                pauseButton.disabled = true;
+            });
+
+            // Stop Timer
+            stopButton.addEventListener("click", () => {
+                clearInterval(timerInterval);
+                timerInterval = null;
+
+                const currentDateTime = new Date().toISOString();
+
+                // Save updated event to server
+                fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        index,
+                        elapsedSeconds: event.elapsedSeconds,
+                        endDateTime: currentDateTime
+                    })
+                })
+                    .then(() => fetchEvents())
+                    .catch(error => console.error("Error updating event:", error));
+            });
+        }
+
+        // Format Time
+        function formatTime(seconds) {
+            const hrs = Math.floor(seconds / 3600).toString().padStart(2, '0');
+            const mins = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            return `${hrs}:${mins}:${secs}`;
+        }
+
+        // Initial Fetch
+        fetchEvents();
+    </script>
+</body>
+</html>
