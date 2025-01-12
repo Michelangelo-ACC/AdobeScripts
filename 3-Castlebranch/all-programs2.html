@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Table with Search</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id="searchBox" placeholder="Search..." onkeyup="filterTable()">
+    <table border="1" id="dataTable">
+        <thead>
+            <tr>
+                <th>Location</th>
+                <th>Dept</th>
+                <th>Tracker</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        // JSON document
+        data = [
+            {
+                "Tracker ID": "UL61im",
+                "Location": "Austin Community College",
+                "Dept": "Health Sciences (Sponsor)",
+                "Link": "#"
+            },
+            {
+                "Tracker ID": "UL62im",
+                "Location": "Austin Community College",
+                "Dept": "AA Immunizations",
+                "Link": "#"
+            },
+            {
+                "Tracker ID": "UL63im",
+                "Location": "Austin Community College",
+                "Dept": "AA Immunizations - Faculty",
+                "Link": "#"
+            },
+            {
+                "Tracker ID": "UL61im",
+                "Location": "Austin Community College",
+                "Dept": "Academy Pharmacy Tech",
+                "Link": "#"
+            },
+            {
+                "Tracker ID": "UL61im",
+                "Location": "Austin Community College",
+                "Dept": "Adult Education",
+                "Link": "#"
+            },
+            {
+                "Tracker ID": "UL61im",
+                "Location": "Austin Community College",
+                "Dept": "Associate Degree Nursing Mobility",
+                "Link": "#"
+            },
+            {
+                "Tracker ID": "UL61im",
+                "Location": "Austin Community College",
+                "Dept": "Associate Degree Nursing Traditional",
+                "Link": "#"
+            },
+            {
+                "Tracker ID": "UL61im",
+                "Location": "Austin Community College",
+                "Dept": "Background Recheck",
+                "Link": "#"
+            },
+            {
+                "Tracker ID": "UL61im",
+                "Location": "Austin Community College",
+                "Dept": "Cardiovascular Interventional Radiology",
+                "Link": "#"
+            },
+            {
+                "Tracker ID": "UL61im",
+                "Location": "Austin Community College",
+                "Dept": "CE - HIPAA Phase 1",
+                "Link": "#"
+            },
+            {
+                "Tracker ID": "UL61im",
+                "Location": "Austin Community College",
+                "Dept": "CE - TB Immunization ONLY",
+                "Link": "#"
+            }
+            // Repeat for all other entries
+        ]
+
+
+        // Populate the table
+        const tableBody = document.querySelector('#dataTable tbody');
+
+        data.forEach(entry => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${entry.Location}</td>
+                <td>${entry.Dept || "N/A"}</td>
+                <td>${entry["Tracker ID"]}</td>
+                <td><a href="${entry.Link}">View</a></td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        // Search filter function
+        function filterTable() {
+            const searchValue = document.getElementById('searchBox').value.toLowerCase();
+            const rows = tableBody.querySelectorAll('tr');
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
+                row.style.display = rowText.includes(searchValue) ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+
+</html>
