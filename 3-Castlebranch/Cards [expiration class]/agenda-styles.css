@@ -1,0 +1,149 @@
+header, .flag_toggle {
+    display: none;
+}
+
+#future-health {
+    font-family: 'Montserrat';
+}
+#hero-title{
+    font-size: 50pt;
+    font-weight: 400;
+}
+h1 {
+    font-size: 40pt;
+    font-weight: 400;
+}
+h3 {
+    font-size: 20pt;
+    font-weight: 400;
+    /*font-family: 'Montserrat';*/
+}
+h3#futurehealth-title {
+    font-size: 25pt;
+}
+h4 {
+    font-size: 15pt;
+    font-weight: 400;
+}
+a.vc_general.vc_btn3.vc_btn3-size-md.vc_btn3-shape-square.vc_btn3-style-classic.vc_btn3-block {
+    font-size: 10pt;
+}
+.Ai-Hbtn > button {
+    font-size:10pt!important;
+}
+.PPI-icon{
+    box-shadow: 2.5px 0px 10px 2px rgba(0, 0, 0, .15);
+}
+.hero-title {
+    font-size: 50pt;
+}
+.hero-subtitle {
+    font-size: 20pt;
+}
+/*.date_slot:before {
+    position: absolute;
+    content: '';
+    width: 22%;
+    height: 20px;
+    background-color: #fff;
+    top: -7px;
+    left: 0;
+}*/
+span.left {
+    width: 28%;
+    font-weight: 700;
+}
+.date_slot, .active_date {
+    margin: 20px 0px;
+    margin-top: 20px;
+    margin-right: 0px;
+    margin-bottom: 20px;
+    margin-left: 0px;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 25px;
+    letter-spacing: 0.07em;
+    color: #333F48 !important;
+    font-family: 'Libre Franklin', sans-serif !important;
+}
+/*.date_slot:after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background-color: #7e5cef;
+    position: absolute;
+    left: 21%;
+    top: -6px;
+    border-radius: 50px;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+}*/
+.date_slot {
+    /*border-bottom: 2px solid #7e5cef;*/
+    padding: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    border-left: none;
+    border-left-width: initial;
+    border-left-style: none;
+    border-left-color: initial;
+    /*border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;*/
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.date_slot:nth-child(odd) {
+    background-color: #7e5cef15;
+}
+add-to-calendar-button {
+    float: right;
+}
+a.vc_general.vc_btn3.vc_btn3-size-md.vc_btn3-shape-square.vc_btn3-style-outline.vc_btn3-block.vc_btn3-color-mulled-wine{
+    font-size: 10pt;
+}
+/* Modal */
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 99; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; /* 5% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            border-radius: 10px;
+            z-index: 999;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }

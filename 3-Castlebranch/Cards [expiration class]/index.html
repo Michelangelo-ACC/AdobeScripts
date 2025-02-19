@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expiring Cards</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            max-width: 1200px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 15px;
+        }
+        .card h3 {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .card a {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 10px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .card a:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-container" id="cardContainer">
+        <!-- Cards will be injected here -->
+    </div>
+
+    <script>
+        // JSON Data for Cards
+        const cardsData = [
+            {
+                "title": "Event 1 - Live Now!",
+                "startTime": "2025-02-17T10:00:00",
+                "endTime": "2025-02-18T23:59:59",
+                "imgSrc": "https://sites.austincc.edu/health/wp-content/uploads/sites/176/2024/08/ambulance_stock.png",
+                "url": "https://example.com/event1"
+            },
+            {
+                "title": "Event 2 - Ends Soon!",
+                "startTime": "2025-02-16T12:00:00",
+                "endTime": "2025-02-18T12:00:00",
+                "imgSrc": "https://sites.austincc.edu/health/wp-content/uploads/sites/176/2024/08/ambulance_stock.png",
+                "url": "https://example.com/event2"
+            },
+            {
+                "title": "Event 3 - Expired",
+                "startTime": "2025-02-14T08:00:00",
+                "endTime": "2025-02-16T23:59:59",
+                "imgSrc": "https://sites.austincc.edu/health/wp-content/uploads/sites/176/2024/08/ambulance_stock.png",
+                "url": "https://example.com/event3"
+            }
+        ];
+
+        function renderCards() {
+            const container = document.getElementById("cardContainer");
+            container.innerHTML = ""; // Clear previous content
+
+            const now = new Date(); // Get current date/time
+
+            cardsData.forEach((card) => {
+                const endTime = new Date(card.endTime);
+
+                if (now < endTime) {
+                    const cardElement = document.createElement("div");
+                    cardElement.classList.add("card");
+
+                    cardElement.innerHTML = `
+                        <a href="${card.url}" target="_blank">
+                            <img src="${card.imgSrc}" alt="${card.title}">
+                        </a>
+                        <div class="card-content">
+                            <h3>${card.title}</h3>
+                            <a href="${card.url}" target="_blank">Learn More</a>
+                        </div>
+                    `;
+
+                    container.appendChild(cardElement);
+                }
+            });
+        }
+
+        // Run function when page loads
+        renderCards();
+    </script>
+
+</body>
+</html>

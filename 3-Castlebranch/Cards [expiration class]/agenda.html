@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="agenda-styles.css">
+</head>
+
+<body>
+    <div class="Schedule_dates_row"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const events = [{
+                    "time": "08:00 am - 08:30 am",
+                    "duration": "30 mins",
+                    "title": "Breakfast, Registration and Networking"
+                },
+                {
+                    "time": "08:30 am - 08:45 am",
+                    "duration": "15 mins",
+                    "title": "Welcome Remarks: Dr. Gaye Lynn Scott and Dr. Nina Almasy"
+                },
+                {
+                    "time": "08:45 am - 10:15 am",
+                    "duration": "45 mins",
+                    "title": "Keynote Presentation and Q & A (Dr. Babak Hodjat)",
+                    "narrative": ""
+                },
+                {
+                    "time": "10:15 am - 10:30 am",
+                    "duration": "15 mins",
+                    "title": "Break"
+                },
+                {
+                    "time": "10:30 am - 11:30 am",
+                    "duration": "60 mins",
+                    "title": "Panel 1: AI in Higher Education and Healthcare Workforce Preparation",
+                    "moderator": "Susan Warner-Sanchez",
+                    "panelists": "Stephanie Long, Kate Williams, Misty Rasmussen (?), Stephanie Bogdanich (sbogdani@austincc.edu)",
+                    "narrative": "This panel will focus on the role of AI in higher education and healthcare worker programs, concentrating on its impact on training, curriculum development, and enhancing professional skills and competencies."
+                },
+                {
+                    "time": "11:30 am - 11:50 am",
+                    "duration": "20 mins",
+                    "title": "Fireside Chat with Dr. Craig Watkins"
+                },
+                {
+                    "time": "11:50 am - 12:50 pm",
+                    "duration": "75 mins",
+                    "title": "Lunch and Poster Session"
+                },
+                {
+                    "time": "12:50 pm - 01:50 pm",
+                    "duration": "60 mins",
+                    "title": "Panel 2: AI Trends in Healthcare",
+                    "moderator": "Beth Vaughn",
+                    "panelists": "Sojal Ghoshal, Ali Rouzbayani, Abel Guevara III, Toni Swinton (?)",
+                    "narrative": "This panel will explore the latest trends in AI in healthcare, highlighting advancements in medical imaging, personalized medicine, predictive analytics, all aimed at revolutionizing patient care in home settings, healthcare systems, and beyond."
+                },
+                {
+                    "time": "01:50 pm - 02:05 pm",
+                    "duration": "15 mins",
+                    "title": "Break"
+                },
+                {
+                    "time": "02:05 pm - 03:05 pm",
+                    "duration": "60 mins",
+                    "title": "Panel 3: AI for Social Good",
+                    "moderator": "Sherry Greenberg",
+                    "panelists": "Dr. Maaz Amjad, Aleena Tomy, Not Confirmed: Craig Watkins",
+                    "narrative": "This panel will examine how AI can be harnessed for social good, exploring its potential to address societal challenges and concerns and improve quality of life while recognizing the need to ensure AI advancements comply with legal considerations and the ethical protection of individual rights."
+                },
+                {
+                    "time": "03:05 pm - 03:20 pm",
+                    "duration": "15 mins",
+                    "title": "Networking Break"
+                },
+                {
+                    "time": "03:20 pm - 04:00 pm",
+                    "duration": "40 mins",
+                    "title": "AI Tools and Resources: An interactive showcase <hr><br> Next Steps Strategy Session<hr>"
+                }
+            ];
+            // Function to create div rows
+            function createDivRows() {
+                const scheduleRow = document.querySelector('.Schedule_dates_row');
+                if (!scheduleRow) return;
+                events.forEach(event => {
+                    const row = document.createElement('div');
+                    row.classList.add('date_slot');
+                    const timeSpan = document.createElement('span');
+                    timeSpan.classList.add('left');
+                    timeSpan.textContent = event.time;
+                    const titleDurationSpan = document.createElement('span');
+                    titleDurationSpan.classList.add('right');
+                    let titleContent;
+                    if (event.title.startsWith("Panel 1")) {
+                        titleContent =
+                            `<a href="https://sites.austincc.edu/health/ai-symposium/panelists/#panel-1">${event.title}</a>`;
+                    } else if (event.title.startsWith("Panel 2")) {
+                        titleContent =
+                            `<a href="https://sites.austincc.edu/health/ai-symposium/panelists/#panel-2">${event.title}</a>`;
+                    } else if (event.title.startsWith("Panel 3")) {
+                        titleContent =
+                            `<a href="https://sites.austincc.edu/health/ai-symposium/panelists/#panel-3">${event.title}</a>`;
+                    } else if (event.title.startsWith("AI Tools")) {
+                        titleContent =
+                            `<a href="https://sites.austincc.edu/health/ai-symposium/panelists/#ai-tools-and-resources">${event.title}</a>`;
+                    } else if (event.title.startsWith("Keynote")) {
+                        titleContent =
+                            `<a href="https://sites.austincc.edu/health/ai-symposium/keynote">${event.title}</a>`;
+                    } else if (event.title.startsWith("Welcome")) {
+                        titleContent =
+                            `<a href="https://sites.austincc.edu/health/ai-symposium/welcome">${event.title}</a>`;
+                    } else if (event.title.startsWith("Fireside Chat")) {
+                        titleContent =
+                            `<a href="https://sites.austincc.edu/health/ai-symposium/fireside-chat">${event.title}</a>`;
+                    } else {
+                        titleContent = `${event.title}`;
+                    }
+                    titleDurationSpan.innerHTML = titleContent;
+                    row.appendChild(timeSpan);
+                    row.appendChild(titleDurationSpan);
+                    scheduleRow.appendChild(row);
+                });
+            }
+            createDivRows();
+        });
+    </script>
+    <script>
+        window.onload = function() {
+            // Get the modal
+            var modal = document.getElementById("myModal");
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            // When the user clicks the button, open the modal 
+            btn.onclick = function() {
+                modal.style.display = "block";
+            }
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        };
+    </script>
+</body>
+
+</html>
